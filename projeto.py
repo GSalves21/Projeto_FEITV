@@ -2,7 +2,7 @@
 
 def Cadastrar(Name,Senha):
     registro = open("Usuarios.txt","a")
-    registro.write("Usuario: %s , Senha: %s \n" % (Name,Senha))
+    registro.write("%s,%s\n" % (Name,Senha))
     registro.close()
 
 #fim da função
@@ -12,7 +12,8 @@ def Cadastrar(Name,Senha):
 def verificar_login(Usuario,senha):
     login = open("Usuarios.txt","r")
     for  validação in login:
-        validação = ("Usuario: %s , Senha: %s \n" % (Usuario,senha))
+        validação = ("%s,%s\n" % (Usuario,senha))
+        print(validação)
         if validação == login.readlines():
             login.close()
             return True
@@ -43,19 +44,20 @@ if acessar_menu_principal == 0:
 
 else:
     if acessar_menu_principal == 1:
-        usuario = input("Digite seu nome de usuário: ")
-        senha = input("Digite sua senha: ")
+        usuario = input("Digite seu nome de usuário:")
+        senha = input("Digite sua senha:")
         login = verificar_login(usuario,senha)
 
 #se a função retornar falso o código pedirá que o usuário insira denovo usuário e senha e depois chamará a função verificar_login novamente para fazer a verificação e caso seja um usuario válido o loop quebrará e proseguiremos
     
     if login == False:
         while True:
-            usuario = input("Digite seu nome de usuário: ")
-            senha = input("Digite sua senha: ")
+            usuario = input("Digite seu nome de usuário:")
+            senha = input("Digite sua senha:")
             login = verificar_login(usuario,senha)
             if login == True:
                 break
+
 print("Bem vindo!")
 
 #agora o usuario podera navegar pelas seções que ele escolher
@@ -63,9 +65,6 @@ print("Bem vindo!")
 seção = int(input("Qual seção você deseja acessar? (1-buscar 2-curtir 3-gerenciar lista): "))
 
 # if seção == 1:
-
-
-
 
 
 
