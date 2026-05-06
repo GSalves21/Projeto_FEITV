@@ -10,15 +10,15 @@ def Cadastrar(Name,Senha):
 #essa função ira fazer uma verificação se o login é válido
 
 def verificar_login(Usuario,senha):
-    login = open("Usuarios.txt","r")
-    for  validação in login:
-        validação = ("%s,%s\n" % (Usuario,senha))
-        print(validação)
-        if validação == login.readlines():
-            login.close()
+    acesso_usuario =  ("%s,%s\n" % (Usuario,senha)) # o /n faz a quebra de linha
+    arquivo = open("Usuarios.txt","r")
+    for  registro in arquivo:
+        if registro == acesso_usuario:
+            arquivo.close()
             return True
-        else:
-            print("O usuário digitado não existe no sistema")
+    else:
+        arquivo.close()
+        print("O usuário digitado não existe no sistema")
         return False
 #fim da função
 
@@ -38,7 +38,9 @@ while acessar_menu_principal != 0 and acessar_menu_principal != 1:
 if acessar_menu_principal == 0:
     Nome = input("Cadastre seu nome: ")
     Senha = input("escolha uma senha:" )
-    cadastro = Cadastrar(Nome,Senha)
+    Cadastrar(Nome,Senha) #chamei a função para realizar o cadastro
+    print("cadastro realizado com sucesso!")
+    acessar_menu_principal = int(input("qual ação você quer realizar?"))
 
 #fazer login
 
