@@ -32,7 +32,9 @@ def criando_catalogo(Nome,ano_lancamento,genero,duracao,sinopse):
 def dicionario_catalogo():
     consulta = open('catalogo.txt','r')
     for video_disponivel in consulta:
-        catalogo[] = video_disponivel
+        video_disponivel = video_disponivel.split(';')
+        catalogo[] = 
+        
     
         
 
