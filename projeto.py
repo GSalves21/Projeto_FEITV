@@ -22,8 +22,24 @@ def verificar_login(Usuario,senha):
         return False
 #fim da função
 
-#menu inicial:
 
+#Agora farei uma função pra salvar varios filmes e suas informações em um arquivo no formato txt e já criar o catalogo:
+def criando_catalogo(Nome,ano_lancamento,genero,duracao,sinopse):
+    catalogo = open('catalogo.txt','a')
+    catalogo.write(f'{Nome};{ano_lancamento};{genero};{duracao};{sinopse}\n')
+    catalogo.close()
+
+def dicionario_catalogo():
+    consulta = open('catalogo.txt','r')
+    for video_disponivel in consulta:
+        catalogo[] = video_disponivel
+    
+        
+
+#aqui estará o dicionário que fara a consulta do catalogo:
+catalogo = {}
+dicionario_catalogo()
+#menu inicial:
 print("Bem vindo a FEI TV!")
 print("caso você deseje fazer login  digite 1,se não possui login digite 0 para se cadastrar: ")
 
@@ -40,7 +56,7 @@ if acessar_menu_principal == 0:
     Senha = input("escolha uma senha:" )
     Cadastrar(Nome,Senha) #chamei a função para realizar o cadastro
     print("cadastro realizado com sucesso!")
-    acessar_menu_principal = int(input("qual ação você quer realizar?"))
+
 
 #fazer login
 
@@ -66,4 +82,6 @@ print("Bem vindo!")
 
 seção = int(input("Qual seção você deseja acessar? (1-buscar 2-curtir 3-gerenciar lista): "))
 
-# if seção == 1:
+if seção == 1:
+    video = input("Digite o nome do filme/série que você deseja acessar:")
+    
