@@ -34,16 +34,26 @@ def dicionario_catalogo():
     catalogo = {}
     consulta = open('catalogo.txt','r')
     for video_disponivel in consulta:
-        video_disponivel = video_disponivel.split(';')
+        video_disponivel = video_disponivel.strip().split(';')
         catalogo[video_disponivel [0]] = video_disponivel[1:5] #Sempre o elemento 0 da lista cuja é o nome do video(filme/serie) será a chave do dicionário e o restante das informações referentes ao video serão o valor
     consulta.close()
     return catalogo
+
+#aqui estará o dicionário que fara a consulta do catalogo:(coloquei logo de inicio do codigo para ja estar pronto todo catalogo pra consulta)
+dicionario = dicionario_catalogo()
+
+
+def busca(video):
+    for conteudo in dicionario:
+        if video.strip().upper() == conteudo.upper().strip() :
+            return print(conteudo,':',dicionario[conteudo])
+    
+
     
     
         
 
-#aqui estará o dicionário que fara a consulta do catalogo:(coloquei logo de inicio do codigo para ja estar pronto todo catalogo pra consulta)
-dicionario = dicionario_catalogo
+
 
 #menu inicial:
 print("Bem vindo a FEI TV!")
@@ -89,5 +99,12 @@ print("Bem vindo!")
 seção = int(input("Qual seção você deseja acessar? (1-buscar 2-curtir 3-gerenciar lista): "))
 
 if seção == 1:
-    video = input("Digite o nome do filme/série que você deseja acessar:")
-    
+    while True:
+        video = input("Digite o nome do filme/série que você deseja acessar:")
+        resultado = busca(video)
+        if resultado == None:
+            print("O video buscado não foi encontrado")
+        else:
+            break
+print(resultado)
+  
