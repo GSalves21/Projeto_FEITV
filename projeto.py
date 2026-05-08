@@ -29,18 +29,22 @@ def criando_catalogo(Nome,ano_lancamento,genero,duracao,sinopse):
     catalogo.write(f'{Nome};{ano_lancamento};{genero};{duracao};{sinopse}\n')
     catalogo.close()
 
+#aqui havera uma leitura de cada linha do catalogo.txt e criará uma lista usando o metodo split
 def dicionario_catalogo():
+    catalogo = {}
     consulta = open('catalogo.txt','r')
     for video_disponivel in consulta:
         video_disponivel = video_disponivel.split(';')
-        catalogo[] = 
-        
+        catalogo[video_disponivel [0]] = video_disponivel[1:5] #Sempre o elemento 0 da lista cuja é o nome do video(filme/serie) será a chave do dicionário e o restante das informações referentes ao video serão o valor
+    consulta.close()
+    return catalogo
+    
     
         
 
-#aqui estará o dicionário que fara a consulta do catalogo:
-catalogo = {}
-dicionario_catalogo()
+#aqui estará o dicionário que fara a consulta do catalogo:(coloquei logo de inicio do codigo para ja estar pronto todo catalogo pra consulta)
+dicionario = dicionario_catalogo
+
 #menu inicial:
 print("Bem vindo a FEI TV!")
 print("caso você deseje fazer login  digite 1,se não possui login digite 0 para se cadastrar: ")
