@@ -99,12 +99,13 @@ print("Bem vindo!")
 seção = int(input("Qual seção você deseja acessar? (1-buscar 2-curtir 3-gerenciar lista): "))
 
 if seção == 1:
-    while True:
-        video = input("Digite o nome do filme/série que você deseja acessar:")
-        resultado = busca(video)
-        if resultado == None:
-            print("O video buscado não foi encontrado")
-        else:
-            break
-print(resultado)
+    video = input("Digite o nome do filme/série que você deseja acessar:")
+    resultado = busca(video)
+    
+        
+        
+        
+           
+    
+
   
