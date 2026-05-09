@@ -63,19 +63,42 @@ def dicionario_catalogo():
 #aqui estará o dicionário que fara a consulta do catalogo:(coloquei logo de inicio do codigo para ja estar pronto todo catalogo pra consulta)
 dicionario = dicionario_catalogo()
 
-
+#aqui havera a busca no dicionario para ver se o video que o usuario quer está no catalogo
 def busca(video):
     for conteudo in dicionario:
         if video.strip().upper() == conteudo.upper().strip() :
-            return f'{conteudo},:,{dicionario[conteudo]}'
-    
+            Titulo = f'titulo:{conteudo} \n'
+            lancamento = f'Lançamento: {dicionario[conteudo][0]} \n'
+            genero = f'Genêro: {dicionario[conteudo][1]} \n'
+            duracao = f'duração: {dicionario[conteudo][2]} \n'
+            sinopse = f'Sinopse: {dicionario[conteudo][3]} \n'
+            return f'{Titulo}.{lancamento}.{genero}.{duracao}.{sinopse}'
+            
+
+
+def navegar_seção():
+    seção = int(input("Qual seção você deseja acessar? (1-buscar 2-curtir 3-gerenciar lista): "))
+    if seção == 1:
+        menu_busca()
+
+def menu_busca():
+    while True:            
+        video = input("Digite o nome do filme/série que você deseja acessar:")
+        resultado = busca(video)
+        if resultado == None:
+            print("Video não encontrado!")
+        else:
+            print(resultado)
+        acao = input('deseja continuar buscando videos(para voltar escreva: nao)')
+        if acao == 'não' or acao == 'Não' or acao =='nao' or acao == 'Nao':
+            break
+    navegar_seção()
+
+
+                
 
     
     
-        
-
-
-
 #menu inicial:
 print("Bem vindo a FEI TV!")
 print("caso você deseje fazer login  digite 1,se não possui login digite 0 para se cadastrar: ")
@@ -96,24 +119,8 @@ if acessar_menu_principal == 1:
     menu_login()
 #agora o usuario podera navegar pelas seções que ele escolher
 
-seção = int(input("Qual seção você deseja acessar? (1-buscar 2-curtir 3-gerenciar lista): "))
+navegar_seção()
 
-if seção == 1:
-    while True:
-        print('deseja buscar algum video(S-sim,N-nao)')
-        navegar_menu =(input('Qual acao deseja fazer?'))
-        if navegar_menu == "N":
-            break
-        if navegar_menu == 'S':
-            video = input("Digite o nome do filme/série que você deseja acessar:")
-            resultado = busca(video)
-            if resultado == None:
-                print("Video não encontrado!")
-            else:
-                print(resultado)
-        else:
-            print('erro' )
-        
 
             
     
