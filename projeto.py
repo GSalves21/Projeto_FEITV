@@ -30,19 +30,20 @@ def verificar_login(Usuario,senha):
 #fim da função
 
 #Aqui está a função do menu de login:
-def menu_login():
-    usuario = input("Digite seu nome de usuário:")
-    senha = input("Digite sua senha:")
+def menu_login(usuario,senha):
     login = verificar_login(usuario,senha)
     if login == False: #se a função retornar falso o código pedirá que o usuário insira denovo usuário e senha e depois chamará a função verificar_login novamente para fazer a verificação e caso seja um usuario válido o loop quebrará e proseguiremos
-        while True:
-            usuario = input("Digite seu nome de usuário:")
-            senha = input("Digite sua senha:")
-            login = verificar_login(usuario,senha)
-            if login == True:
-                return login #me dará o nome do usuario
+        return False
+    else:
+        return True
+           
             
     print("Bem vindo!")
+
+def usuario_atual(usuario):
+    usuario_online = usuario
+    return usuario
+
 
 
 #Agora farei uma função pra salvar varios filmes e suas informações em um arquivo no formato txt e já criar o catalogo:
@@ -78,13 +79,27 @@ def busca(video):
             return f'{Titulo}.{lancamento}.{genero}.{duracao}.{sinopse}'
 
 
-
-def curtida(usuario,filme):
+#essa função permitirá o usuário curtir videos
+def curtida(usuario,video):
     Curtidas = open('curtidas.txt','a')
-    Curtidas.write(f'{usuario}:{filme}')
+    for obras in dicionario:
+        if video.strip().upper() == obras.upper().strip() :
+            curtir_titulo = obras
+            curtida_existe = verificar_curtida_existente(usuario,curtir_titulo)
+            if curtida_existe == True:
+                Curtidas.write(f'{usuario}:{curtir_titulo}\n')
+            else:
+                print('você já curtiu esse video!')
     Curtidas.close()
 
-
+#essa função não permitirá que o usuario curta um video que ele ja curtiu
+def verificar_curtida_existente(usuario,obras):
+    verificar_existencia = open('curtidas.txt','r')
+    for curtida in verificar_existencia:
+        if curtida == f'{usuario}:{obras}\n':
+                return False
+        else:
+            return True
 
 def navegar_seção():
     seção = int(input("Qual seção você deseja acessar? (1-buscar 2-gerenciar lista): "))
@@ -106,8 +121,9 @@ def menu_busca():
             print(resultado)
             curtir = input('Você gostaria de curtir o video?(digite like para curtir)')
             if curtir == 'like':
-                curtida(usuario_atual)
-
+                curtida(usuario,video)
+                
+                
         acao = input('deseja continuar buscando videos(para voltar escreva: nao)')
         if acao == 'não' or acao == 'Não' or acao =='nao' or acao == 'Nao':
             break
@@ -139,7 +155,13 @@ if acessar_menu_principal == 0:
 
 
 if acessar_menu_principal == 1:
-    usuario_atual = menu_login()
+    while True:
+            usuario = input("Digite seu nome de usuário:")
+            senha = input("Digite sua senha:")
+            login_sucesso = menu_login(usuario,senha)
+            if login_sucesso == True:
+                break
+            
 
 #agora o usuario podera navegar pelas seções que ele escolher
 
