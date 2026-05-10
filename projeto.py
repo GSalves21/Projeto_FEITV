@@ -57,9 +57,18 @@ def dicionario_catalogo():
     consulta.close()
     return catalogo
 
+#estará criando o dicionario que terá a informação de todas as listas de reprodução de cada usuário
+def dicionario_favoritos():
+    favoritos_usuarios = open('listas_reproducao_usuarios.txt','r')
+    for lista in favoritos_usuarios:
+        lista = lista.split(':')
+        dicionario_listas_favoritos[lista[0]] = lista[1:]
 
 #aqui estará o dicionário que fara a consulta do catalogo:(coloquei logo de inicio do codigo para ja estar pronto todo catalogo pra consulta)
 dicionario = dicionario_catalogo()
+
+#esse dicionario ja estara sendo carregado sempre que o programa inicializar :
+dicionario_listas_favoritos = dicionario_favoritos()
 
 #aqui havera a busca no dicionario para ver se o video que o usuario quer está no catalogo
 def busca(video):
@@ -139,6 +148,7 @@ def criar_lista_reproducao(usuario):
     if criar_nova_lista == False:
         print('essa lista já existe')
     menu_gerenciar_favoritos()
+
 
 
 
