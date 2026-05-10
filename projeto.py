@@ -13,6 +13,8 @@ def menu_cadastro():
         Senha = input("escolha uma senha:" )
         Cadastrar(Nome,Senha) #chamei a função para realizar o cadastro
         print("cadastro realizado com sucesso!")
+        
+        
 
 
 #essa função ira fazer uma verificação se o login é válido
@@ -37,15 +39,7 @@ def menu_login(usuario,senha):
         return False
     else:
         return True
-           
-            
-
-
-def usuario_atual(usuario):
-    usuario_online = usuario
-    return usuario
-
-
+        
 
 #Agora farei uma função pra salvar varios filmes e suas informações em um arquivo no formato txt e já criar o catalogo:
 def criando_catalogo(Nome,ano_lancamento,genero,duracao,sinopse):
@@ -100,12 +94,47 @@ def verificar_curtida_existente(usuario,obras):
             return False
     return True
 
+ 
+
+
+#aqui está a navegação do programa depois do login
 def navegar_seção():
     seção = int(input("Qual seção você deseja acessar? (1-buscar 2-gerenciar lista): "))
     if seção == 1:
         menu_busca()
     if seção == 2:
         print('essa parte do codigo ainda está em desenvolvimento')
+
+#aqui sera um submenu que aparecerá se o usuario escolher a opcao 2:
+def menu_gerenciar_favoritos():
+    print('o que você deseja fazer com  lista de reproduções de videos favoritos?')
+    opcoes = input('1-criar,2-editar,3-excluir')
+    if opcoes == 1:
+        criar_lista_reproducao(usuario)
+
+    # if opcoes == 2:
+
+    # if opcoes == 3:
+
+#para evitar problemas posteriormente na edição de listas essa função não permitirá que um usuário crie uma nova lista com o mesmo nome de alguma que ele já criou
+def verificar_listas(usuario,lista):
+    listas_usuarios = open('lista_reproducao_usuarios.txt','r')
+    lista_a_verificar = f'{usuario}:{lista}\n'
+    for verificacao in listas_usuarios:
+        if verificacao.strip().strip('\n') == lista_a_verificar.strip().strip('\n'):
+            return False
+    return True
+
+
+ 
+#essa função permitirá que o usuario crie uma nova lista de reprodução
+def criar_lista_reproducao(usuario):
+    lista_reproducao = open('listas_reproducao_usuarios.txt','a')
+    nome_lista = input('Nome da nova lista:')
+    verificar_listas(usuario,nome_lista)
+    lista_reproducao.write(f'{usuario}:{nome_lista}\n')
+    lista_reproducao.close()
+
 
 
 
@@ -118,17 +147,16 @@ def menu_busca():
             print("Video não encontrado!")
         else:
             print(resultado)
-            curtir = input('Você gostaria de curtir o video?(digite like para curtir)')
-            if curtir == 'like':
+            acao = input('O que você deseja fazer agora?(L-curtir o video,A-adicionar na lista de reprodução,S-sair para o menu anterior)')
+            if acao.upper() == 'L': 
                 curtida(usuario,video)
-                
-                
-        acao = input('deseja continuar buscando videos(para voltar escreva: nao)')
-        if acao == 'não' or acao == 'Não' or acao =='nao' or acao == 'Nao':
-            break
+            # if curtir.upper == 'A':
+            if acao.upper() == 'S':
+                break
     navegar_seção()
 
-
+                
+        
                 
 
 
