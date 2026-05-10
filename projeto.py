@@ -14,6 +14,7 @@ def menu_cadastro():
         Cadastrar(Nome,Senha) #chamei a função para realizar o cadastro
         print("cadastro realizado com sucesso!")
 
+
 #essa função ira fazer uma verificação se o login é válido
 
 def verificar_login(Usuario,senha):
@@ -38,7 +39,7 @@ def menu_login(usuario,senha):
         return True
            
             
-    print("Bem vindo!")
+
 
 def usuario_atual(usuario):
     usuario_online = usuario
@@ -51,7 +52,6 @@ def criando_catalogo(Nome,ano_lancamento,genero,duracao,sinopse):
     catalogo = open('catalogo.txt','a')
     catalogo.write(f'{Nome};{ano_lancamento};{genero};{duracao};{sinopse}\n')
     catalogo.close()
-
 
 #aqui havera uma leitura de cada linha do catalogo.txt e criará uma lista usando o metodo split
 def dicionario_catalogo():
@@ -96,10 +96,9 @@ def curtida(usuario,video):
 def verificar_curtida_existente(usuario,obras):
     verificar_existencia = open('curtidas.txt','r')
     for curtida in verificar_existencia:
-        if curtida == f'{usuario}:{obras}\n':
-                return False
-        else:
-            return True
+        if curtida.strip('\n') == f'{usuario}:{obras}':
+            return False
+    return True
 
 def navegar_seção():
     seção = int(input("Qual seção você deseja acessar? (1-buscar 2-gerenciar lista): "))
