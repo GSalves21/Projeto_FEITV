@@ -103,12 +103,12 @@ def navegar_seção():
     if seção == 1:
         menu_busca()
     if seção == 2:
-        print('essa parte do codigo ainda está em desenvolvimento')
+        menu_gerenciar_favoritos()
 
 #aqui sera um submenu que aparecerá se o usuario escolher a opcao 2:
 def menu_gerenciar_favoritos():
     print('o que você deseja fazer com  lista de reproduções de videos favoritos?')
-    opcoes = input('1-criar,2-editar,3-excluir')
+    opcoes = int(input('1-criar,2-editar,3-excluir'))
     if opcoes == 1:
         criar_lista_reproducao(usuario)
 
@@ -118,7 +118,7 @@ def menu_gerenciar_favoritos():
 
 #para evitar problemas posteriormente na edição de listas essa função não permitirá que um usuário crie uma nova lista com o mesmo nome de alguma que ele já criou
 def verificar_listas(usuario,lista):
-    listas_usuarios = open('lista_reproducao_usuarios.txt','r')
+    listas_usuarios = open('listas_reproducao_usuarios.txt','r')
     lista_a_verificar = f'{usuario}:{lista}\n'
     for verificacao in listas_usuarios:
         if verificacao.strip().strip('\n') == lista_a_verificar.strip().strip('\n'):
@@ -131,9 +131,14 @@ def verificar_listas(usuario,lista):
 def criar_lista_reproducao(usuario):
     lista_reproducao = open('listas_reproducao_usuarios.txt','a')
     nome_lista = input('Nome da nova lista:')
-    verificar_listas(usuario,nome_lista)
-    lista_reproducao.write(f'{usuario}:{nome_lista}\n')
-    lista_reproducao.close()
+    criar_nova_lista = verificar_listas(usuario,nome_lista)
+    if criar_nova_lista == True:
+        lista_reproducao.write(f'{usuario}:{nome_lista}\n')
+        lista_reproducao.close()
+        print('lista criada com sucesso!')
+    if criar_nova_lista == False:
+        print('essa lista já existe')
+    menu_gerenciar_favoritos()
 
 
 
