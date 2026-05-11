@@ -61,7 +61,7 @@ def dicionario_catalogo():
 dicionario = dicionario_catalogo()
 
 #essa lista  ja estara sendo carregado sempre que o programa inicializar :
-usuarios_listas_favoritos = []
+usuarios_listas_favoritos = []# em cada indice terá o nome do usuário e todas suas listas de reproduções 
 dicionario_videos_lista_favoritos = {}
 
 
@@ -69,8 +69,8 @@ dicionario_videos_lista_favoritos = {}
 def leitura_lista_favoritos():
     favoritos_usuarios = open('listas_reproducao_usuarios.txt','r')
     for lista in favoritos_usuarios:
-        lista = lista.split(':')
-        usuarios_listas_favoritos.append =  lista[0] + lista[1:]
+        lista = lista.strip('\n').split(':')
+        usuarios_listas_favoritos.append(lista[0],lista[1:])
     favoritos_usuarios.close()
 
 
@@ -152,9 +152,16 @@ def verificar_listas(usuario,lista):
     listas_usuarios = open('listas_reproducao_usuarios.txt','r')
     lista_a_verificar = f'{usuario}:{lista}\n'
     for verificacao in listas_usuarios:
-        if verificacao.strip().strip('\n') == lista_a_verificar.strip().strip('\n'):
-            return False
-    return True
+        verificacao = verificacao.strip('\n').split(':')
+        if usuario == verificacao[0]:
+            for i in  (usuarios_listas_favoritos):
+                if usuario == usuarios_listas_favoritos[i][0]:
+                    usuarios_listas_favoritos[i][1].append(lista)
+                    return True
+    usuarios_listas_favoritos.append(usuario,lista)
+    return False
+            
+    
 
 
  
@@ -164,12 +171,13 @@ def criar_lista_reproducao(usuario):
     nome_lista = input('Nome da nova lista:')
     criar_nova_lista = verificar_listas(usuario,nome_lista)
     if criar_nova_lista == True:
-        lista_reproducao.write(f'{usuario}:{nome_lista}\n')
+        print('Criação realizada com sucesso')
         lista_reproducao.close()
-        print('lista criada com sucesso!')
+        
     if criar_nova_lista == False:
         print('essa lista já existe')
     menu_gerenciar_favoritos()
+
 
 
 
