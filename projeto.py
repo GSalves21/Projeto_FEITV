@@ -57,18 +57,40 @@ def dicionario_catalogo():
     consulta.close()
     return catalogo
 
-#estará criando o dicionario que terá a informação de todas as listas de reprodução de cada usuário
-def dicionario_favoritos():
-    favoritos_usuarios = open('listas_reproducao_usuarios.txt','r')
-    for lista in favoritos_usuarios:
-        lista = lista.split(':')
-        dicionario_listas_favoritos[lista[0]] = lista[1:]
-
 #aqui estará o dicionário que fara a consulta do catalogo:(coloquei logo de inicio do codigo para ja estar pronto todo catalogo pra consulta)
 dicionario = dicionario_catalogo()
 
-#esse dicionario ja estara sendo carregado sempre que o programa inicializar :
-dicionario_listas_favoritos = dicionario_favoritos()
+#essa lista  ja estara sendo carregado sempre que o programa inicializar :
+usuarios_listas_favoritos = []
+dicionario_videos_lista_favoritos = {}
+
+
+#estará criando o dicionario que terá a informação de todas as listas de reprodução de cada usuário
+def leitura_lista_favoritos():
+    favoritos_usuarios = open('listas_reproducao_usuarios.txt','r')
+    for lista in favoritos_usuarios:
+        lista = lista.split(':')
+        usuarios_listas_favoritos.append =  lista[0] + lista[1:]
+    favoritos_usuarios.close()
+
+
+def atualizar_lista_favoritos(usuario_atual,video_adicionado,remover = False): #essa lista adicionará ou apagará um filme da lista de favoritos
+    if remover == False:
+        usuarios_listas_favoritos.clear()
+        adicionar_video = open('listas_reproducao_usuarios.txt','a')
+        adicionar_video.write(f'{usuario_atual}:{video_adicionado}')
+        adicionar_video.close()
+        leitura_lista_favoritos()
+    else:
+        if remover == True:
+            remover_video = open('listas_reproducao_usuarios.txt','w')
+            for 
+
+    
+leitura_lista_favoritos()
+
+
+
 
 #aqui havera a busca no dicionario para ver se o video que o usuario quer está no catalogo
 def busca(video):
@@ -165,7 +187,11 @@ def menu_busca():
             acao = input('O que você deseja fazer agora?(L-curtir o video,A-adicionar na lista de reprodução,S-sair para o menu anterior)')
             if acao.upper() == 'L': 
                 curtida(usuario,video)
-            # if curtir.upper == 'A':
+            if acao.upper == 'A':
+                lista_a_receber_video = input('insira em qual lista você deseja adicionar o video:')
+                verificar_listas(usuario,lista_a_receber_video)
+                if verificar_listas == False: #nessa função o false significa que a lista já existe
+
             if acao.upper() == 'S':
                 break
     navegar_seção()
@@ -177,25 +203,20 @@ def menu_busca():
 
     
 #menu inicial:
-
 print("Bem vindo a FEI TV!")
 print("caso você deseje fazer login  digite 1,se não possui login digite 0 para se cadastrar: ")
 
 #definindo se irá pra login ou cadastro:
-
 acessar_menu_principal = int(input("Qual ação você quer realizar? ")) # lembrar de pensar em um nome melhor para essa variavél
-
 while acessar_menu_principal != 0 and acessar_menu_principal != 1:
     print("O número digitado é invalido!")
     acessar_menu_principal = int(input("Qual ação você quer realizar? ")) # lembrar de pensar em um nome melhor para essa variavél
 
 #Fazer um cadastro
-
 if acessar_menu_principal == 0:
     menu_cadastro()
+
 #fazer login
-
-
 if acessar_menu_principal == 1:
     while True:
             usuario = input("Digite seu nome de usuário:")
