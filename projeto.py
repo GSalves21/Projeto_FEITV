@@ -148,7 +148,7 @@ def menu_gerenciar_favoritos():
     # if opcoes == 3:
 
 #para evitar problemas posteriormente na edição de listas essa função não permitirá que um usuário crie uma nova lista com o mesmo nome de alguma que ele já criou
-def verificar_listas(usuario,lista):
+def adicionar_lista(usuario,lista):
     listas_usuarios = open('listas_reproducao_usuarios.txt','r')
     lista_a_verificar = f'{usuario}:{lista}\n'
     for verificacao in listas_usuarios:
@@ -157,28 +157,25 @@ def verificar_listas(usuario,lista):
             for i in  (usuarios_listas_favoritos):
                 if usuario == usuarios_listas_favoritos[i][0]:
                     usuarios_listas_favoritos[i][1].append(lista)
-                    return True
+                    
     usuarios_listas_favoritos.append(usuario,lista)
-    return False
-            
     
+#lerá a lista e atualizara o arquivo txt  
+def persistencia_listas():
+    lista_reproducao_usu = open('listas_reproducao_usuarios.txt','w')
+    for L in usuarios_listas_favoritos:
 
 
  
 #essa função permitirá que o usuario crie uma nova lista de reprodução
 def criar_lista_reproducao(usuario):
-    lista_reproducao = open('listas_reproducao_usuarios.txt','a')
+    lista_reproducao = open('listas_reproducao_usuarios.txt','w')
     nome_lista = input('Nome da nova lista:')
-    criar_nova_lista = verificar_listas(usuario,nome_lista)
-    if criar_nova_lista == True:
-        print('Criação realizada com sucesso')
-        lista_reproducao.close()
+    criar_nova_lista = adicionar_lista(usuario,nome_lista)
+    
         
-    if criar_nova_lista == False:
-        print('essa lista já existe')
-    menu_gerenciar_favoritos()
 
-
+#talvez eu remova essa lógica e crie uma funcao que ira ler a lista e reescrever o arquivo txt de acordo com a lista
 
 
 
