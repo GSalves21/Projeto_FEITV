@@ -53,7 +53,7 @@ def dicionario_catalogo():
     consulta = open('catalogo.txt','r')
     for video_disponivel in consulta:
         video_disponivel = video_disponivel.strip().split(';')
-        catalogo[video_disponivel [0]] = video_disponivel[1:5] #Sempre o elemento 0 da lista cuja é o nome do video(filme/serie) será a chave do dicionário e o restante das informações referentes ao video serão o valor
+        catalogo[video_disponivel [0]] = video_disponivel[1:] #Sempre o elemento 0 da lista cuja é o nome do video(filme/serie) será a chave do dicionário e o restante das informações referentes ao video serão o valor
     consulta.close()
     return catalogo
 
@@ -61,33 +61,22 @@ def dicionario_catalogo():
 dicionario = dicionario_catalogo()
 
 #essa lista  ja estara sendo carregado sempre que o programa inicializar :
-usuarios_listas_favoritos = []# em cada indice terá o nome do usuário e todas suas listas de reproduções 
+usuarios_listas_favoritos = {}# a chave será o nome do usuario e o valor sera uma lista com o nome das listas de reproduçao
 dicionario_videos_lista_favoritos = {}
 
 
-#estará criando o dicionario que terá a informação de todas as listas de reprodução de cada usuário
+# estarei fazendo uma função que puxa os dados do arquivo txt e os carrega em usuarios
 def leitura_lista_favoritos():
-    favoritos_usuarios = open('listas_reproducao_usuarios.txt','r')
-    for lista in favoritos_usuarios:
-        lista = lista.strip('\n').split(':')
-        usuarios_listas_favoritos.append(lista[0],lista[1:])
+    favoritos_usuarios = open('lista_reproducao_usuarios.txt','r')
+    for usuario_lista in favoritos_usuarios:
+        separacao_chave_valor = usuario_lista.strip('\n').split(',')
+        usuarios_listas_favoritos[separacao_chave_valor[0]] = separacao_chave_valor[1].strip("[]''").split(",")
     favoritos_usuarios.close()
+    print(usuarios_listas_favoritos)
 
-
-def atualizar_lista_favoritos(usuario_atual,video_adicionado,remover = False): #essa lista adicionará ou apagará um filme da lista de favoritos
-    if remover == False:
-        usuarios_listas_favoritos.clear()
-        adicionar_video = open('listas_reproducao_usuarios.txt','a')
-        adicionar_video.write(f'{usuario_atual}:{video_adicionado}')
-        adicionar_video.close()
-        leitura_lista_favoritos()
-    else:
-        if remover == True:
-            remover_video = open('listas_reproducao_usuarios.txt','w')
-            for 
-
-    
 leitura_lista_favoritos()
+    
+
 
 
 
@@ -147,39 +136,30 @@ def menu_gerenciar_favoritos():
 
     # if opcoes == 3:
 
-#para evitar problemas posteriormente na edição de listas essa função não permitirá que um usuário crie uma nova lista com o mesmo nome de alguma que ele já criou
-def adicionar_lista(usuario,lista):
-    listas_usuarios = open('listas_reproducao_usuarios.txt','r')
-    lista_a_verificar = f'{usuario}:{lista}\n'
-    for verificacao in listas_usuarios:
-        verificacao = verificacao.strip('\n').split(':')
-        if usuario == verificacao[0]:
-            for i in  (usuarios_listas_favoritos):
-                if usuario == usuarios_listas_favoritos[i][0]:
-                    usuarios_listas_favoritos[i][1].append(lista)
-                    
-    usuarios_listas_favoritos.append(usuario,lista)
-    
-#lerá a lista e atualizara o arquivo txt  
-def persistencia_listas():
-    lista_reproducao_usu = open('listas_reproducao_usuarios.txt','w')
-    for L in usuarios_listas_favoritos:
+# usuarios_listas_favoritos = {}
+def criar_lista_reproducao(usuario):
+    lista_nova = input('Digite o nome da nova lista de favoritos:')
+    if usuario  in (usuarios_listas_favoritos):
+        usuarios_listas_favoritos[usuario].append(lista_nova)
 
+    if usuario not in usuarios_listas_favoritos:
+        usuarios_listas_favoritos[usuario] = []
+        usuarios_listas_favoritos[usuario].append(lista_nova)
+    persistir_criacao_lista() #sempre que uma lista nova for adicionada o arquivo será atualizado
+    leitura_lista_favoritos()
+
+    print('lista de favoritos criada com sucesso')
+    menu_gerenciar_favoritos()
+    
+
+#agora essa função estará lendo o que está no dicionario e passando pro arquivo txt:
+def persistir_criacao_lista():
+    guardar_informacao = open('lista_reproducao_usuarios.txt','w')
+    for key in usuarios_listas_favoritos:
+        guardar_informacao.write(f'{key},{usuarios_listas_favoritos[key]}\n')#ficar de olho nesse \n
+    guardar_informacao.close()
 
  
-#essa função permitirá que o usuario crie uma nova lista de reprodução
-def criar_lista_reproducao(usuario):
-    lista_reproducao = open('listas_reproducao_usuarios.txt','w')
-    nome_lista = input('Nome da nova lista:')
-    criar_nova_lista = adicionar_lista(usuario,nome_lista)
-    
-        
-
-#talvez eu remova essa lógica e crie uma funcao que ira ler a lista e reescrever o arquivo txt de acordo com a lista
-
-
-
-
 def menu_busca():
     while True:            
         video = input("Digite o nome do filme/série que você deseja acessar:")
@@ -194,9 +174,7 @@ def menu_busca():
                 curtida(usuario,video)
             if acao.upper == 'A':
                 lista_a_receber_video = input('insira em qual lista você deseja adicionar o video:')
-                verificar_listas(usuario,lista_a_receber_video)
-                if verificar_listas == False: #nessa função o false significa que a lista já existe
-
+                
             if acao.upper() == 'S':
                 break
     navegar_seção()
