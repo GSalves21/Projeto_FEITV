@@ -65,19 +65,17 @@ usuarios_listas_favoritos = {}# a chave será o nome do usuario e o valor sera u
 dicionario_videos_lista_favoritos = {}
 
 
+
 # estarei fazendo uma função que puxa os dados do arquivo txt e os carrega em usuarios
-def leitura_lista_favoritos():
-    favoritos_usuarios = open('lista_reproducao_usuarios.txt','r')
-    for usuario_lista in favoritos_usuarios:
-        separacao_chave_valor = usuario_lista.strip('\n').split(',')
-        usuarios_listas_favoritos[separacao_chave_valor[0]] = separacao_chave_valor[1].strip("[]''").split(",")
-    favoritos_usuarios.close()
-    print(usuarios_listas_favoritos)
-
-leitura_lista_favoritos()
-    
-
-
+def salvando_dados():
+    abrir_listas = open('lista_reproducao_usuarios.txt','r')
+    for lista in abrir_listas:
+        chave = lista.split(':')
+        if chave[0] not in usuarios_listas_favoritos:
+            usuarios_listas_favoritos[chave[0]] = []
+        usuarios_listas_favoritos[chave[0]].append(chave[1])
+    abrir_listas.close()
+salvando_dados()        
 
 
 
@@ -146,7 +144,7 @@ def criar_lista_reproducao(usuario):
         usuarios_listas_favoritos[usuario] = []
         usuarios_listas_favoritos[usuario].append(lista_nova)
     persistir_criacao_lista() #sempre que uma lista nova for adicionada o arquivo será atualizado
-    leitura_lista_favoritos()
+    salvando_dados()
 
     print('lista de favoritos criada com sucesso')
     menu_gerenciar_favoritos()
@@ -156,8 +154,9 @@ def criar_lista_reproducao(usuario):
 def persistir_criacao_lista():
     guardar_informacao = open('lista_reproducao_usuarios.txt','w')
     for key in usuarios_listas_favoritos:
-        guardar_informacao.write(f'{key},{usuarios_listas_favoritos[key]}\n')#ficar de olho nesse \n
-    guardar_informacao.close()
+        for valor in range (0,len(usuarios_listas_favoritos[key])):
+            guardar_informacao.write(f'{key}:{usuarios_listas_favoritos[key][valor]}\n')#ficar de olho nesse \n
+        guardar_informacao.close()
 
  
 def menu_busca():

@@ -1,1 +1,4 @@
-Gabriel Alves,['abc', 'shdhdjf']
+Gabriel Alves:homem aranha
+
+Gabriel Alves:dmc
+Gabriel Alves:dbz
