@@ -131,7 +131,8 @@ def menu_gerenciar_favoritos():
     if opcoes == 1:
         criar_lista_reproducao(usuario)
 
-    # if opcoes == 2:
+    if opcoes == 2:
+        remover_video()
 
     # if opcoes == 3:
 
@@ -190,12 +191,33 @@ def adicionar_video_favorito(usuario,video):
         else:
             print('A lista digitada não existe')
     print(favoritados)
+    salvar_videos_favoritos()
     menu_busca()
-        
-    
-    
 
- 
+#salvará em um arquivo txt os videos que forem adicionados em uma lista de favoritos
+def salvar_videos_favoritos():
+    videos_favoritados = open('videos_favoritados.txt','w')
+    for lista_favorito in favoritados:
+        for videos_fav in range(0,len(favoritados[lista_favorito])):
+            videos_favoritados.write(f'{lista_favorito}:{favoritados[videos_fav]}')
+    videos_favoritados.close()
+    
+#essa funcao permitira apagar um video adicionado em uma lista de favoritos:
+def remover_video():
+    lista_a_editar = input('Qual lista você deseja editar:')
+    validacao_lista = permissao_adicionar_video(usuario,lista_a_editar)#vera se a lista existe
+    video_a_remover = input('Qual video você deseja remover:')
+    permissao_video = permissao_remover_video(video_a_remover)
+    if permissao_video != False and validacao_lista !=False:
+        for favoritos in favoritados:
+            if video_a_remover in favoritados[favoritos]:
+                    favoritados[validacao_lista].remove(permissao_video)
+
+def permissao_remover_video(video):
+    catalogo = dicionario_catalogo()
+    for videos in catalogo:
+        if video.upper().strip() == videos.upper().strip():
+            return videos
 def menu_busca():
     while True:            
         video = input("Digite o nome do filme/série que você deseja acessar:")
