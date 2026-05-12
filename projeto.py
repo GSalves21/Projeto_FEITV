@@ -63,7 +63,7 @@ dicionario = dicionario_catalogo()
 #essa lista  ja estara sendo carregado sempre que o programa inicializar :
 usuarios_listas_favoritos = {}# a chave será o nome do usuario e o valor sera uma lista com o nome das listas de reproduçao
 dicionario_videos_lista_favoritos = {}
-
+favoritados = {}
 #estara fazendo o processo inverso ele pegara os valores do arquivo txt e mandara para usuarios_listas_favoritos
 def colocar_favoritos_dicionario():
     ler_dados = open('lista_reproducao_usuarios.txt','r')
@@ -103,6 +103,7 @@ def curtida(usuario,video):
     Curtidas.close()
 
 
+          
 
 #essa função não permitirá que o usuario curta um video que ele ja curtiu
 def verificar_curtida_existente(usuario,obras):
@@ -150,7 +151,7 @@ def criar_lista_reproducao(usuario):
     print('lista de favoritos criada com sucesso')
     menu_gerenciar_favoritos()
 
-#irá atualizar o arquivo txt 
+#irá atualizar o arquivo txt das listas favoritos
 def escrever_lista_arquivo():
     arquivo = open('lista_reproducao_usuarios.txt','w')
     for keys in usuarios_listas_favoritos:
@@ -163,6 +164,36 @@ def escrever_lista_arquivo():
                 arquivo.write(f'{usuarios_listas_favoritos[keys][valores]},')
     arquivo.close()
 
+#consultara se a lista de favoritos que o usuario digitou existe
+def permissao_adicionar_video(usuario,lista_fav):
+    for listas in range(len(usuarios_listas_favoritos[usuario])):
+        if usuarios_listas_favoritos[usuario][listas].upper() == lista_fav.upper():
+            return usuarios_listas_favoritos[usuario][listas]
+    else:
+        return False
+    
+
+
+def adicionar_video_favorito(usuario,video):
+    while True:
+        lista_fav = input('em qual lista você deseja adicionar:')
+        resposta = permissao_adicionar_video(usuario,lista_fav)
+        if resposta != False:
+            if resposta  in favoritados:
+                favoritados[resposta].append(video)
+                print('adicionado com sucesso')
+                break
+            else:
+                favoritados[resposta] = []
+                favoritados[resposta].append(video)
+                break
+        else:
+            print('A lista digitada não existe')
+    print(favoritados)
+    menu_busca()
+        
+    
+    
 
  
 def menu_busca():
@@ -177,9 +208,8 @@ def menu_busca():
             acao = input('O que você deseja fazer agora?(L-curtir o video,A-adicionar na lista de reprodução,S-sair para o menu anterior)')
             if acao.upper() == 'L': 
                 curtida(usuario,video)
-            if acao.upper == 'A':
-                lista_a_receber_video = input('insira em qual lista você deseja adicionar o video:')
-                
+            if acao.upper() == 'A':
+                adicionar_video_favorito(usuario,video)
             if acao.upper() == 'S':
                 break
     navegar_seção()
