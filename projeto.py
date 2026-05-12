@@ -64,13 +64,18 @@ dicionario = dicionario_catalogo()
 usuarios_listas_favoritos = {}# a chave será o nome do usuario e o valor sera uma lista com o nome das listas de reproduçao
 dicionario_videos_lista_favoritos = {}
 
-# estara fazendo o processo inverso ele pegara os valores do arquivo txt e mandara para usuarios_listas_favoritos
+#estara fazendo o processo inverso ele pegara os valores do arquivo txt e mandara para usuarios_listas_favoritos
 def colocar_favoritos_dicionario():
     ler_dados = open('lista_reproducao_usuarios.txt','r')
     for usuarios in ler_dados:
-        usuarios = usuarios.split(',')
-        usuarios_listas_favoritos[usuarios] =
-        
+        usuarios = usuarios.replace(':',',').strip('\n').split(',')
+        usuarios_listas_favoritos[usuarios[0]] = []
+        for valores in usuarios:
+            if valores == usuarios[0]:
+                continue
+            else:
+                usuarios_listas_favoritos[usuarios[0]].append(valores)
+colocar_favoritos_dicionario()
 
 
 def busca(video):
@@ -97,6 +102,8 @@ def curtida(usuario,video):
                 print('você já curtiu esse video!')
     Curtidas.close()
 
+
+
 #essa função não permitirá que o usuario curta um video que ele ja curtiu
 def verificar_curtida_existente(usuario,obras):
     verificar_existencia = open('curtidas.txt','r')
@@ -118,7 +125,7 @@ def navegar_seção():
 
 #aqui sera um submenu que aparecerá se o usuario escolher a opcao 2:
 def menu_gerenciar_favoritos():
-    print('o que você deseja fazer com  lista de reproduções de videos favoritos?')
+    print('o que você deseja fazer com  lista de reproduções de videos favoritos? ')
     opcoes = int(input('1-criar,2-editar,3-excluir'))
     if opcoes == 1:
         criar_lista_reproducao(usuario)
@@ -147,15 +154,15 @@ def criar_lista_reproducao(usuario):
 def escrever_lista_arquivo():
     arquivo = open('lista_reproducao_usuarios.txt','w')
     for keys in usuarios_listas_favoritos:
-        arquivo.write(f'{keys},')
+        arquivo.write(f'{keys}:')
         for valores in range (len(usuarios_listas_favoritos[keys])):
             if valores == len(usuarios_listas_favoritos[keys]) - 1:
-                arquivo.write(f'{usuarios_listas_favoritos[keys][-1]}')
+                arquivo.write(f'{usuarios_listas_favoritos[keys][-1]}\n')
                 
             else:
                 arquivo.write(f'{usuarios_listas_favoritos[keys][valores]},')
-    arquivo.write('\n')
     arquivo.close()
+
 
  
 def menu_busca():
@@ -208,7 +215,7 @@ if acessar_menu_principal == 1:
             
 
 #agora o usuario podera navegar pelas seções que ele escolher
-print(dicionario)
+
 navegar_seção()
 
 
