@@ -57,12 +57,14 @@ def dicionario_catalogo():
     consulta.close()
     return catalogo
 
+
 #aqui estará o dicionário que fara a consulta do catalogo:(coloquei logo de inicio do codigo para ja estar pronto todo catalogo pra consulta)
 dicionario = dicionario_catalogo()
 
 #essa lista  ja estara sendo carregado sempre que o programa inicializar :
 usuarios_listas_favoritos = {}# a chave será o nome do usuario e o valor sera uma lista com o nome das listas de reproduçao
 favoritados = {}#videos que estão favoritados e suas listas
+
 #estara fazendo o processo inverso ele pegara os valores do arquivo txt e mandara para usuarios_listas_favoritos
 def colocar_favoritos_dicionario():
     ler_dados = open('lista_reproducao_usuarios.txt','r')
@@ -76,16 +78,17 @@ def colocar_favoritos_dicionario():
                 usuarios_listas_favoritos[usuarios[0]].append(valores)
 colocar_favoritos_dicionario()
 
-def persistencia_videos_favoritos():
-    favoritos = open('videos_favoritados.txt','r')
-    for linha in favoritos:
-        linha = favoritos.split(':')
-        if linha[0] in favoritos:
-            favoritos[linha].append(linha[1])
-        else:
-            if linha[0] not in favoritos:
-                favoritos[linha] = []
-                favoritos[linha].append(linha[1])
+# def persistencia_videos_favoritos():
+#     favoritos = open('videos_favoritados.txt','r')
+#     for linha in favoritos:
+#         linha = linha.strip('\n').split(':',1)
+#         if linha[0] in favoritados:
+#             favoritados[linha[0]].append(linha[1])
+#         else:
+#             if linha[0] not in favoritos:
+#                 favoritados[linha[0]] = []
+#                 favoritados[linha[0]].append(linha[1])
+# persistencia_videos_favoritos()
 
 def busca(video):
     for conteudo in dicionario:
@@ -96,7 +99,7 @@ def busca(video):
             duracao = f'duração: {dicionario[conteudo][2]} \n'
             sinopse = f'Sinopse: {dicionario[conteudo][3]} \n'
             return f'{Titulo}.{lancamento}.{genero}.{duracao}.{sinopse}'
-
+    
 
 #essa função permitirá o usuário curtir videos
 def curtida(usuario,video):
@@ -122,7 +125,21 @@ def verificar_curtida_existente(usuario,obras):
             return False
     return True
 
- 
+def menu_edicao():
+    while True:
+        opcao = int(input('Qual acao voce deseja realizar(1-excluir video da lista de reproducao;2-mudar nome da lista)'))
+        if opcao == 1:
+            remover_video(usuario)
+        # elif opcao == 2:
+        # else:
+        #     print('invalido')    
+        
+#pegara so o nome do vdeo
+def permissao_adicionar_video(video):
+    existencia_catalogo = busca(video)
+    existencia_catalogo = existencia_catalogo.split('.')
+    existencia_nova = existencia_catalogo[0].split(':')
+    return existencia_nova[1].strip('\n')
 
 
 #aqui está a navegação do programa depois do login
@@ -136,15 +153,20 @@ def navegar_seção():
 #aqui sera um submenu que aparecerá se o usuario escolher a opcao 2:
 def menu_gerenciar_favoritos():
     print('o que você deseja fazer com  lista de reproduções de videos favoritos? ')
-    opcoes = int(input('1-criar,2-editar,3-excluir'))
+    opcoes = int(input('1-criar,2-editar,3-excluir,4-voltar'))
     if opcoes == 1:
         criar_lista_reproducao(usuario)
 
     if opcoes == 2:
-        remover_video()
+        menu_edicao()
+
 
     # if opcoes == 3:
 
+    if opcoes == 4:
+        navegar_seção()
+    else:
+        menu_gerenciar_favoritos()
 # esse codigo estará adicionando no dicionario a nova lista
 def criar_lista_reproducao(usuario):
     lista_nova = input('Digite o nome da nova lista de favoritos:')
@@ -175,27 +197,31 @@ def escrever_lista_arquivo():
     arquivo.close()
 
 #consultara se a lista de favoritos que o usuario digitou existe
-def permissao_adicionar_video(usuario,lista_fav):
-    for listas in range(len(usuarios_listas_favoritos[usuario])):
+def permissao_lista_favorito(usuario,lista_fav):
+    for listas in range(0,len(usuarios_listas_favoritos[usuario])):
         if usuarios_listas_favoritos[usuario][listas].upper() == lista_fav.upper():
             return usuarios_listas_favoritos[usuario][listas]
-    else:
-        return False
+    mensagem_erro = ('Lista não encontrada')
+    return mensagem_erro
     
 
 
 def adicionar_video_favorito(usuario,video):
     while True:
         lista_fav = input('em qual lista você deseja adicionar:')
-        resposta = permissao_adicionar_video(usuario,lista_fav)
-        if resposta != False:
+        resposta = permissao_lista_favorito(usuario,lista_fav)
+        requisicao = permissao_adicionar_video(video)
+        print(requisicao)
+        if resposta == None:
+            print('erro')
+        if resposta != 'Lista não encontrada' and resposta != None:
             if resposta  in favoritados:
-                favoritados[resposta].append(video)
+                favoritados[resposta].append(requisicao)
                 print('adicionado com sucesso')
                 break
             else:
                 favoritados[resposta] = []
-                favoritados[resposta].append(video)
+                favoritados[resposta].append(requisicao)
                 break
         else:
             print('A lista digitada não existe')
@@ -210,24 +236,27 @@ def salvar_videos_favoritos():
         for videos_fav in range(0,len(favoritados[lista_favorito])):
             videos_favoritados.write(f'{lista_favorito}:{favoritados[lista_favorito][videos_fav]}\n')
     videos_favoritados.close()
-    
+
+
 #essa funcao permitira apagar um video adicionado em uma lista de favoritos:
-def remover_video():
+def remover_video(usuario):
     lista_a_editar = input('Qual lista você deseja editar:')
-    validacao_lista = permissao_adicionar_video(usuario,lista_a_editar)#vera se a lista existe
+    validacao_lista = permissao_lista_favorito(usuario,lista_a_editar)#vera se a lista existe
     video_a_remover = input('Qual video você deseja remover:')
     permissao_video = permissao_remover_video(video_a_remover)
-    if permissao_video != False and validacao_lista !=False:
-            if video_a_remover in favoritados[validacao_lista]:
-                    favoritados[validacao_lista].remove(permissao_video)
-                    salvar_videos_favoritos()
+    if permissao_video (not False):
+        if permissao_video in favoritados[validacao_lista]:
+            favoritados[validacao_lista].remove(permissao_video)
+            salvar_videos_favoritos()
+
+
 
 def permissao_remover_video(video):
     catalogo = dicionario_catalogo()
     for videos in catalogo:
-        if video.upper().strip() == videos.upper().strip():
+        if videos.upper().strip() == video.upper().strip():
             return videos
-
+    return False
 
 def menu_busca():
     while True:            
@@ -285,7 +314,7 @@ if acessar_menu_principal == 0:
 
 
     
-        
+#funcao descurtir e excluir lista
         
         
            
