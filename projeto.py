@@ -253,24 +253,12 @@ def salvar_videos_favoritos():
 
 
 #essa funcao permitira apagar um video adicionado em uma lista de favoritos:
-def remover_video(usuario):
-    lista_a_editar = input('Qual lista você deseja editar:')
-    validacao_lista = permissao_lista_favorito(usuario,lista_a_editar)#vera se a lista existe
-    video_a_remover = input('Qual video você deseja remover:')
-    permissao_video = permissao_remover_video(video_a_remover)
-    if permissao_video (not False):
-        if permissao_video in favoritados[validacao_lista]:
-            favoritados[validacao_lista].remove(permissao_video)
-            salvar_videos_favoritos()
+
+
+        
 
 
 
-def permissao_remover_video(video):
-    catalogo = dicionario_catalogo()
-    for videos in catalogo:
-        if videos.upper().strip() == video.upper().strip():
-            return videos
-    return False
 
 def menu_busca():
     while True:            
