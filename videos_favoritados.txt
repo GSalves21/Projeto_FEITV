@@ -1,2 +1,1 @@
 classicos:Smallvile 
-classicos:Rocky Um Lutador 

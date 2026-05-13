@@ -125,15 +125,7 @@ def verificar_curtida_existente(usuario,obras):
             return False
     return True
 
-def menu_edicao():
-    while True:
-        opcao = int(input('Qual acao voce deseja realizar(1-excluir video da lista de reproducao;2-mudar nome da lista)'))
-        if opcao == 1:
-            remover_video(usuario)
-        # elif opcao == 2:
-        # else:
-        #     print('invalido')    
-        
+
 #pegara so o nome do vdeo
 def permissao_adicionar_video(video):
     existencia_catalogo = busca(video)
@@ -157,14 +149,14 @@ def menu_gerenciar_favoritos():
     if opcoes == 1:
         criar_lista_reproducao(usuario)
 
-    if opcoes == 2:
-        menu_edicao()
+    elif opcoes == 2:
+        remover_video()
 
 
-    if opcoes == 3:
+    elif opcoes == 3:
         excluir_lista_favoritos(usuario)
 
-    if opcoes == 4:
+    elif opcoes == 4:
         navegar_seção()
     else:
         menu_gerenciar_favoritos()
@@ -254,11 +246,27 @@ def salvar_videos_favoritos():
 
 #essa funcao permitira apagar um video adicionado em uma lista de favoritos:
 
-
+def remover_video():
+    lista_que_o_contem = input('em qual lista voce deseja apagar o video:')
+    video_a_remover = input('Nome do video a ser removido dessa lista:')
+    for lista in favoritados:
+        if lista_que_o_contem.upper().strip() == lista.upper().strip():
+            lista_que_o_contem = lista
+            print('lista encontrada')
+            break
+    else:
+        print('lista não encontrada')
         
+    for videos_adicionados in range (len(favoritados[lista_que_o_contem])):
+        if favoritados[lista_que_o_contem][videos_adicionados].upper().strip() == video_a_remover.upper().strip():
+            favoritados[lista_que_o_contem].remove(favoritados[lista_que_o_contem][videos_adicionados])
+            break
+    salvar_videos_favoritos()
+    menu_gerenciar_favoritos()
 
-
-
+            
+    
+         
 
 def menu_busca():
     while True:            
