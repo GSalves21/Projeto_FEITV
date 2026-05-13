@@ -5,6 +5,4 @@ Rocky:Um Lutador;1976;Drama/Esporte;1h59min;Um boxeador de segunda categoria rec
 O Grande Dragao Branco;1988;Acao/Artes Marciais;1h 32min;Frank Dux um miltar americano desertou o exercito para ir ate Hong Kong para participar de um clandestino torneio de artes marciais onde os melhores lutadores do mundo se enfrentam em combates de vida ou morte
 Rambo:Programado para matar;1982;acao/drama psicologico;1h 33 min;Apos ser maltratado por policiais locais Rambo usa suas habilidades de boina verde para sobreviver e lutar em uma cidade pequena
 Dragon Ball Z;1989;Anime/acao/aventura;9 temporadas;Apos 5 anos de sua luta contra piccolo Goku vive pacificamente com sua familia ate que uma nova ameaca surge
-Rambo:Programado para matar;1982;acao/drama psicologico;1h 33 min;Apos ser maltratado por policiais locais Rambo usa suas habilidades de boina verde para sobreviver e lutar em uma cidade pequena
-Dragon Ball Z;1989;Anime/acao/aventura;9 temporadas;Apos 5 anos de sua luta contra piccolo Goku vive pacificamente com sua familia ate que uma nova ameaca surge
 O Exterminador do Futuro;1984;Ficcao/acao;1h 47 min;Um ciborgue  enviado do futuro para matar a mulher cujo filho se torna lider da resistencia humana contra as maquinas,no entanto um soldado tenta protegela

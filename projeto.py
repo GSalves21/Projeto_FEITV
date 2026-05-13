@@ -78,17 +78,17 @@ def colocar_favoritos_dicionario():
                 usuarios_listas_favoritos[usuarios[0]].append(valores)
 colocar_favoritos_dicionario()
 
-# def persistencia_videos_favoritos():
-#     favoritos = open('videos_favoritados.txt','r')
-#     for linha in favoritos:
-#         linha = linha.strip('\n').split(':',1)
-#         if linha[0] in favoritados:
-#             favoritados[linha[0]].append(linha[1])
-#         else:
-#             if linha[0] not in favoritos:
-#                 favoritados[linha[0]] = []
-#                 favoritados[linha[0]].append(linha[1])
-# persistencia_videos_favoritos()
+def persistencia_videos_favoritos():
+    favoritos = open('videos_favoritados.txt','r')
+    for linha in favoritos:
+        linha = linha.strip('\n').split(':',1)
+        if linha[0] in favoritados:
+            favoritados[linha[0]].append(linha[1])
+        else:
+            if linha[0] not in favoritos:
+                favoritados[linha[0]] = []
+                favoritados[linha[0]].append(linha[1])
+persistencia_videos_favoritos()
 
 def busca(video):
     for conteudo in dicionario:
@@ -161,12 +161,14 @@ def menu_gerenciar_favoritos():
         menu_edicao()
 
 
-    # if opcoes == 3:
+    if opcoes == 3:
+        excluir_lista_favoritos(usuario)
 
     if opcoes == 4:
         navegar_seção()
     else:
         menu_gerenciar_favoritos()
+
 # esse codigo estará adicionando no dicionario a nova lista
 def criar_lista_reproducao(usuario):
     lista_nova = input('Digite o nome da nova lista de favoritos:')
@@ -204,7 +206,19 @@ def permissao_lista_favorito(usuario,lista_fav):
     mensagem_erro = ('Lista não encontrada')
     return mensagem_erro
     
-
+def excluir_lista_favoritos(usuario):
+    lista_a_remover = input('Lista a remover:')
+    permitir_remocao = permissao_lista_favorito(usuario,lista_a_remover)
+    if permitir_remocao != 'Lista não encontrada':
+        usuarios_listas_favoritos[usuario].remove(permitir_remocao)
+        del favoritados[permitir_remocao]
+        salvar_videos_favoritos()
+        print('Exclusao realizada com sucesso')
+        escrever_lista_arquivo()
+    else:
+        if permitir_remocao == 'Lista não encontrada':
+            print(permitir_remocao)
+    menu_gerenciar_favoritos()
 
 def adicionar_video_favorito(usuario,video):
     while True:
