@@ -1,2 +1,2 @@
-Gabriel Alves:melhores series que ja vi,classicos,biblicos,melhores filmes 2026,C:\Users\Daniel\AppData\Local\Programs\Python\Python39\python.exe c:/Users/Daniel/Documents/GitHub/Projeto_FEITV/projeto.py
+Gabriel Alves:melhores series que ja vi,classicos,biblicos,melhores filmes 2026,terror,melhores 2026
 Daniel Alves:videos de super heroi

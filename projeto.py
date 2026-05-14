@@ -64,7 +64,7 @@ dicionario = dicionario_catalogo()
 #essa lista  ja estara sendo carregado sempre que o programa inicializar :
 usuarios_listas_favoritos = {}# a chave será o nome do usuario e o valor sera uma lista com o nome das listas de reproduçao
 favoritados = {}#videos que estão favoritados e suas listas
-
+curtidas = {}
 #estara fazendo o processo inverso ele pegara os valores do arquivo txt e mandara para usuarios_listas_favoritos
 def colocar_favoritos_dicionario():
     ler_dados = open('lista_reproducao_usuarios.txt','r')
@@ -99,31 +99,39 @@ def busca(video):
             duracao = f'duração: {dicionario[conteudo][2]} \n'
             sinopse = f'Sinopse: {dicionario[conteudo][3]} \n'
             return f'{Titulo}.{lancamento}.{genero}.{duracao}.{sinopse}'
-    
 
-#essa função permitirá o usuário curtir videos
+#lera todas curtidas
+def verificar_curtidas():
+    verificacao = open('curtidas.txt','r')
+    for verificar in verificacao:
+        verificar = verificacao.strip('\n').split(';')
+        if verificar[0] in curtidas:
+            for i in range(len(verificar[1:])):
+                verificar[0] = verificar.append(verificar[i])
+        else:
+            verificar[0] = []
+            for l in range(len(verificar[1:])):
+                verificar[0].append(verificar[l])
+    verificacao.close()  
+
+#curtidas recebera os valores daqui
 def curtida(usuario,video):
-    Curtidas = open('curtidas.txt','a')
-    for obras in dicionario:
-        if video.strip().upper() == obras.upper().strip() :
-            curtir_titulo = obras
-            curtida_existe = verificar_curtida_existente(usuario,curtir_titulo)
-            if curtida_existe == True:
-                Curtidas.write(f'{usuario}:{curtir_titulo}\n')
-            else:
-                print('você já curtiu esse video!')
-    Curtidas.close()
+    if usuario in curtidas:
+        curtidas[usuario] = curtida[usuario].append(video)
+    else:
+        curtidas[usuario] = []
+        curtidas[usuario].append(video)
+    curtida()
 
+#essa função persistirá os dados:
+def curtida():
+    Curtidas = open('curtidas.txt','w')
+    for usuarios in curtidas:
+        Curtidas.write(f'{usuarios};{curtidas[usuario]}\n')
+    Curtidas.close()
 
           
 
-#essa função não permitirá que o usuario curta um video que ele ja curtiu
-def verificar_curtida_existente(usuario,obras):
-    verificar_existencia = open('curtidas.txt','r')
-    for curtida in verificar_existencia:
-        if curtida.strip('\n') == f'{usuario}:{obras}':
-            return False
-    return True
 
 
 #pegara so o nome do vdeo
@@ -159,10 +167,12 @@ def menu_gerenciar_favoritos():
             excluir_lista_favoritos(usuario)
         
         elif opcoes == 4:
-            consultar_catalogos(usuario)
+            break
+    navegar_seção()
             
-        elif opcoes == 5:
-            navegar_seção()
+            
+
+
     
 
 # esse codigo estará adicionando no dicionario a nova lista
@@ -192,11 +202,8 @@ def escrever_lista_arquivo():
             else:
                 arquivo.write(f'{usuarios_listas_favoritos[keys][valores]},')
     arquivo.close()
-def consultar_catalogos(usuario):
-    if usuario in usuarios_listas_favoritos:
-        print(usuario)
-        for i in usuarios_listas_favoritos[usuario]:
-            print(usuarios_listas_favoritos[usuario].strip("''"))
+
+
 #consultara se a lista de favoritos que o usuario digitou existe
 def permissao_lista_favorito(usuario,lista_fav):
     for listas in range(0,len(usuarios_listas_favoritos[usuario])):
