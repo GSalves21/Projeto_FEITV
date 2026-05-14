@@ -14,7 +14,7 @@ def menu_cadastro():
         Cadastrar(Nome,Senha) #chamei a função para realizar o cadastro
         print("cadastro realizado com sucesso!")
         
-        
+
 
 
 #essa função ira fazer uma verificação se o login é válido
@@ -78,6 +78,17 @@ def colocar_favoritos_dicionario():
                 usuarios_listas_favoritos[usuarios[0]].append(valores)
 colocar_favoritos_dicionario()
 
+#lera todas curtidas
+def carregar_curtidas():
+    ler_curtidas = open('curtidas.txt','r')
+    for curtidos in ler_curtidas:
+        separacao = curtidos.strip('\n').split(';')
+        curtidas[separacao[0]] = []
+        for videos_curtidos in separacao[1:]:
+            curtidas[separacao[0]].append(videos_curtidos.strip())
+    ler_curtidas.close()
+carregar_curtidas()
+
 def persistencia_videos_favoritos():
     favoritos = open('videos_favoritados.txt','r')
     for linha in favoritos:
@@ -100,38 +111,28 @@ def busca(video):
             sinopse = f'Sinopse: {dicionario[conteudo][3]} \n'
             return f'{Titulo}.{lancamento}.{genero}.{duracao}.{sinopse}'
 
-#lera todas curtidas
-def verificar_curtidas():
-    verificacao = open('curtidas.txt','r')
-    for verificar in verificacao:
-        verificar = verificacao.strip('\n').split(';')
-        if verificar[0] in curtidas:
-            for i in range(len(verificar[1:])):
-                verificar[0] = verificar.append(verificar[i])
-        else:
-            verificar[0] = []
-            for l in range(len(verificar[1:])):
-                verificar[0].append(verificar[l])
-    verificacao.close()  
+
+
+
+
 
 #curtidas recebera os valores daqui
 def curtida(usuario,video):
     if usuario in curtidas:
-        curtidas[usuario] = curtida[usuario].append(video)
+        curtidas[usuario].append(video)
     else:
         curtidas[usuario] = []
         curtidas[usuario].append(video)
-    curtida()
+    print('curtido')
+    persistir_curtida()
 
 #essa função persistirá os dados:
-def curtida():
-    Curtidas = open('curtidas.txt','w')
+def persistir_curtida():
+    arquivo_curtidas = open('curtidas.txt','w')
     for usuarios in curtidas:
-        Curtidas.write(f'{usuarios};{curtidas[usuario]}\n')
-    Curtidas.close()
-
-          
-
+        valor_salvar_arquivo = f'{usuarios};{curtidas[usuario]}\n'
+        arquivo_curtidas.write(valor_salvar_arquivo.replace("'",'').replace(']','').replace('[','').replace(',',';'))
+    arquivo_curtidas.close()
 
 
 #pegara so o nome do vdeo
@@ -141,7 +142,18 @@ def permissao_adicionar_video(video):
     existencia_nova = existencia_catalogo[0].split(':')
     return existencia_nova[1].strip('\n')
 
-
+def descurtir_video(usuario,video):
+    if usuario in curtidas: #vai nos videos curtidos do usuario
+        for curtido in curtidas[usuario]: #percorre a lista de videos curtidos pelo usuario
+            if video.upper().strip() == curtido.upper().strip():
+                curtidas[usuario].remove(curtido)
+                print('descurtido com sucesso')
+                persistir_curtida()
+                break
+                
+    else:
+        print('erro ao descurtir o video:Ele não está na sua lista de curtidos')
+    
 #aqui está a navegação do programa depois do login
 def navegar_seção():
     seção = int(input("Qual seção você deseja acessar? (1-buscar 2-gerenciar lista): "))
@@ -290,9 +302,11 @@ def menu_busca():
             print("Video não encontrado!")
         else:
             print(resultado)
-            acao = input('O que você deseja fazer agora?(L-curtir o video,A-adicionar na lista de reprodução,S-sair para o menu anterior)')
+            acao = input('O que você deseja fazer agora?(L-curtir o video,D-Descurtir video,A-adicionar na lista de reprodução,S-sair para o menu anterior)')
             if acao.upper() == 'L': 
                 curtida(usuario,video)
+            if acao.upper() == 'D':
+                descurtir_video(usuario,video)
             if acao.upper() == 'A':
                 adicionar_video_favorito(usuario,video)
             if acao.upper() == 'S':
