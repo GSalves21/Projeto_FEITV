@@ -145,21 +145,25 @@ def navegar_seção():
 #aqui sera um submenu que aparecerá se o usuario escolher a opcao 2:
 def menu_gerenciar_favoritos():
     print('o que você deseja fazer com  lista de reproduções de videos favoritos? ')
-    opcoes = int(input('1-criar,2-editar,3-excluir,4-voltar'))
-    if opcoes == 1:
-        criar_lista_reproducao(usuario)
+    while True:
+        opcoes = int(input('1-criar,2-editar,3-excluir,4-voltar'))
+        if opcoes == 1:
+            criar_lista_reproducao(usuario)
+            
 
-    elif opcoes == 2:
-        remover_video()
+        elif opcoes == 2:
+            remover_video()
 
 
-    elif opcoes == 3:
-        excluir_lista_favoritos(usuario)
-
-    elif opcoes == 4:
-        navegar_seção()
-    else:
-        menu_gerenciar_favoritos()
+        elif opcoes == 3:
+            excluir_lista_favoritos(usuario)
+        
+        elif opcoes == 4:
+            consultar_catalogos(usuario)
+            
+        elif opcoes == 5:
+            navegar_seção()
+    
 
 # esse codigo estará adicionando no dicionario a nova lista
 def criar_lista_reproducao(usuario):
@@ -173,9 +177,8 @@ def criar_lista_reproducao(usuario):
         usuarios_listas_favoritos[usuario] = []
         usuarios_listas_favoritos[usuario].append(lista_nova)
         escrever_lista_arquivo()
-    print(usuarios_listas_favoritos)
     print('lista de favoritos criada com sucesso')
-    menu_gerenciar_favoritos()
+    
 
 #irá atualizar o arquivo txt das listas favoritos
 def escrever_lista_arquivo():
@@ -189,7 +192,11 @@ def escrever_lista_arquivo():
             else:
                 arquivo.write(f'{usuarios_listas_favoritos[keys][valores]},')
     arquivo.close()
-
+def consultar_catalogos(usuario):
+    if usuario in usuarios_listas_favoritos:
+        print(usuario)
+        for i in usuarios_listas_favoritos[usuario]:
+            print(usuarios_listas_favoritos[usuario].strip("''"))
 #consultara se a lista de favoritos que o usuario digitou existe
 def permissao_lista_favorito(usuario,lista_fav):
     for listas in range(0,len(usuarios_listas_favoritos[usuario])):
@@ -262,10 +269,9 @@ def remover_video():
             favoritados[lista_que_o_contem].remove(favoritados[lista_que_o_contem][videos_adicionados])
             break
     salvar_videos_favoritos()
-    menu_gerenciar_favoritos()
-
-            
     
+
+
          
 
 def menu_busca():
