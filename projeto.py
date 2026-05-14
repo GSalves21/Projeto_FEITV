@@ -65,6 +65,7 @@ dicionario = dicionario_catalogo()
 usuarios_listas_favoritos = {}# a chave será o nome do usuario e o valor sera uma lista com o nome das listas de reproduçao
 favoritados = {}#videos que estão favoritados e suas listas
 curtidas = {}
+
 #estara fazendo o processo inverso ele pegara os valores do arquivo txt e mandara para usuarios_listas_favoritos
 def colocar_favoritos_dicionario():
     ler_dados = open('lista_reproducao_usuarios.txt','r')
@@ -166,7 +167,13 @@ def navegar_seção():
 def menu_gerenciar_favoritos():
     print('o que você deseja fazer com  lista de reproduções de videos favoritos? ')
     while True:
+        if usuario in usuarios_listas_favoritos:
+            print('Suas listas de favortios: ')
+            for lista_favorito in usuarios_listas_favoritos[usuario]:
+                print(f'{lista_favorito},',end = ' ')
+            
         opcoes = int(input('1-criar,2-editar,3-excluir,4-voltar'))
+        
         if opcoes == 1:
             criar_lista_reproducao(usuario)
             
