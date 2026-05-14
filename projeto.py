@@ -281,7 +281,7 @@ def remover_video():
             print('lista encontrada')
             break
     else:
-        print('lista não encontrada')
+        return print('lista não encontrada')
         
     for videos_adicionados in range (len(favoritados[lista_que_o_contem])):
         if favoritados[lista_que_o_contem][videos_adicionados].upper().strip() == video_a_remover.upper().strip():

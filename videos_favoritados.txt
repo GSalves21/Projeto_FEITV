@@ -1,4 +1,2 @@
-classicos:Smallvile 
-classicos:O Grande Dragao Branco 
-classicos:O Exterminador do Futuro 
-melhores series que ja vi:Dragon Ball Z 
+melhores series que ja vi:Smallvile 
+melhores series que ja vi:Rambo Programado para matar 
